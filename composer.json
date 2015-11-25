@@ -1,5 +1,5 @@
 {
-    "name": "fullpipe/payum-uniteller",
+    "name": "laupin/payum-uniteller",
     "type": "library",
     "description": "Uniteller payment",
     "keywords": [
