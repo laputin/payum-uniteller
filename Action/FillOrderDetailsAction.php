@@ -55,14 +55,14 @@ class FillOrderDetailsAction implements ActionInterface, ApiAwareInterface
             unset($details['EMoneyType']);
         }
 
-        $details['Order_IDP'] = $this->api->validateOrderNumber($order->getNumber());
-        $details['Subtotal_P'] = ((float) $order->getTotalAmount())/100;
+        $details['OrderNumber'] = $this->api->validateOrderNumber($order->getNumber());
+        $details['OrderAmount'] = ((float) $order->getTotalAmount())/100;
         $details['Currency'] = $this->api->validateOrderCurrency($order->getCurrencyCode());
         $details['Comment'] = $order->getDescription();
         $details['Customer_IDP'] = $order->getClientId();
         $details['Email'] = $order->getClientEmail();
 
-        $details->validateNotEmpty('Order_IDP', 'Subtotal_P', 'Currency');
+        $details->validateNotEmpty('OrderNumber', 'OrderAmount', 'Currency');
 
         $order->setDetails($details);
     }

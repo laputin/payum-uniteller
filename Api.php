@@ -72,8 +72,8 @@ class Api
     public function getPaymentPageUrl()
     {
         return $this->isSandbox()
-            ? 'https://test.wpay.uniteller.ru/pay/'
-            : 'https://wpay.uniteller.ru/pay/'
+            ? 'https://test.paysecure.ru/pay/order.cfm'
+            : 'https://test.paysecure.ru/pay/order.cfm'
             ;
     }
 
@@ -95,9 +95,9 @@ class Api
     /**
      * Build order signature from order details.
      * uppercase(md5(
-     *     md5(Shop_IDP) + '&' +
-     *     md5(Order_IDP) + '&' +
-     *     md5(Subtotal_P) + '&' +
+     *     md5(Merchant_ID) + '&' +
+     *     md5(OrderNumber) + '&' +
+     *     md5(OrderAmount) + '&' +
      *     md5(MeanType) +'&' +
      *     md5(EMoneyType) + '&' +
      *     md5(Lifetime) + '&' +
@@ -115,9 +115,9 @@ class Api
     public function sing(array $params)
     {
         $singParams = array(
-            'Shop_IDP' => $this->getShopId(),
-            'Order_IDP' => '',
-            'Subtotal_P' => '',
+            'Merchant_ID' => $this->getShopId(),
+            'OrderNumber' => '',
+            'OrderAmount' => '',
             'MeanType' => '',
             'EMoneyType' => '',
             'Lifetime' => '',

@@ -44,13 +44,13 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
             $details['URL_RETURN'] = $request->getToken()->getAfterUrl();
         }
 
-        $details['Shop_IDP'] = $this->api->getShopId();
+        $details['Merchant_ID'] = $this->api->getShopId();
         $details['Signature'] = $this->api->sing($details->toUnsafeArray());
 
         $details->validatedKeysSet(array(
-            'Shop_IDP',
-            'Order_IDP',
-            'Subtotal_P',
+            'Merchant_ID',
+            'OrderNumber',
+            'OrderAmount',
             'Signature',
             'Currency',
             'Signature',
