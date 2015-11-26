@@ -40,18 +40,20 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
 
         $details = ArrayObject::ensureArrayObject($request->getModel());
 
-        if (null === $details['URL_RETURN_OK'] && $request->getToken()) {
-            $details['URL_RETURN_OK'] = $request->getToken()->getAfterUrl();
+        if (null === $details['URL_RETURN'] && $request->getToken()) {
+            $details['URL_RETURN'] = $request->getToken()->getAfterUrl();
         }
 
-        $details['Merchant_ID'] = $this->api->getShopId();
+        $details['Shop_IDP'] = $this->api->getShopId();
         $details['Signature'] = $this->api->sing($details->toUnsafeArray());
 
         $details->validatedKeysSet(array(
-            'Merchant_ID',
-            'OrderNumber',
-            'OrderAmount',
-            'OrderCurrency',
+            'Shop_IDP',
+            'Order_IDP',
+            'Subtotal_P',
+            'Signature',
+            'Currency',
+            'Signature',
         ));
 
         throw new HttpPostRedirect($this->api->getPaymentPageUrl(), $details->toUnsafeArray());

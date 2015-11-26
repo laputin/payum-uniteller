@@ -6,17 +6,11 @@ use Payum\Core\Exception\LogicException;
 
 class Api
 {
-
-    const DEFAULT_PAYMENT_FORM_Delay = 0;
-    const DEFAULT_ORDER_CardPayment = 1;
-    const DEFAULT_ORDER_CardPayment = 1;
-    const DEFAULT_ORDER_WMPayment = 1;
-    const DEFAULT_ORDER_YMPayment = 1;
-
     const ORDER_NUMBER_MAXIMUM_LENGHT = 127;
     const ORDER_NUMBER_MINIMUM_LENGTH = 1;
 
-
+    const DEFAULT_PAYMENT_FORM_LIFETIME = 300;
+    const DEFAULT_ORDER_LIFETIME = 10800;
 
     const MEAN_TYPE_ANY = 0;
     const MEAN_TYPE_VISA = 1;
@@ -78,8 +72,8 @@ class Api
     public function getPaymentPageUrl()
     {
         return $this->isSandbox()
-            ? 'https://test.paysecure.ru/pay/order.cfm'
-            : 'https://test.paysecure.ru/pay/order.cfm'
+            ? 'https://test.wpay.uniteller.ru/pay/'
+            : 'https://wpay.uniteller.ru/pay/'
             ;
     }
 
@@ -101,19 +95,18 @@ class Api
     /**
      * Build order signature from order details.
      * uppercase(md5(
-     *     md5(Merchant_ID) + '&' +
-     *     md5(OrderNumber) + '&' +
-     *     md5(OrderAmount) + '&' +
-     *     md5(OrderCurrency) +'&' +
-     *     md5(Delay) + '&' +
-     *     md5(Language) + '&' +
-     *     md5(Email) + '&' +
-     *     md5(OrderComment) + '&' +
-     *     md5(URL_RETURN_OK) +'&' +
-     *     md5(URL_RETURN_NO) + '&' +
-     *     md5(CardPayment) + '&' + //only if not in sandbox
-     *     md5(WMPayment) + '&' + //only if not in sandbox
-     *     md5(YMPayment))).
+     *     md5(Shop_IDP) + '&' +
+     *     md5(Order_IDP) + '&' +
+     *     md5(Subtotal_P) + '&' +
+     *     md5(MeanType) +'&' +
+     *     md5(EMoneyType) + '&' +
+     *     md5(Lifetime) + '&' +
+     *     md5(Customer_IDP) + '&' +
+     *     md5(Card_IDP) + '&' +
+     *     md5(IData) +'&' +
+     *     md5(PT_Code) + '&' +
+     *     md5(OrderLifetime) + '&' + //only if not in sandbox
+     *     md5(password))).
      *
      * @param array $params
      *
@@ -122,22 +115,23 @@ class Api
     public function sing(array $params)
     {
         $singParams = array(
-            'Merchant_ID' => $this->getShopId(),
-            'OrderNumber' => '',
-            'OrderAmount' => '',
-            'OrderCurrency' => '',
-            'Delay" VALUE' => '',
-            'Language' => '',
-            'Email' => '',
-            'OrderComment"' => '',
-            'URL_RETURN_OK' => '',
-            'URL_RETURN_NO' => '',
-            'CardPayment' => '',
-            'WMPayment' => '',
-            'YMPayment' => '',
+            'Shop_IDP' => $this->getShopId(),
+            'Order_IDP' => '',
+            'Subtotal_P' => '',
+            'MeanType' => '',
+            'EMoneyType' => '',
+            'Lifetime' => '',
+            'Customer_IDP' => '',
+            'Card_IDP' => '',
+            'IDat' => '',
+            'PT_Code' => '',
+            'OrderLifetime' => '',
+            'password' => $this->getPassword(),
         );
 
-
+        if ($this->isSandbox()) {
+            unset($singParams['OrderLifetime']);
+        }
 
         $params = array_intersect_key($params, $singParams);
         $singParams = array_merge($singParams, $params);
