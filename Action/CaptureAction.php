@@ -43,7 +43,7 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
         if (null === $details['URL_RETURN'] && $request->getToken()) {
             $details['URL_RETURN'] = $request->getToken()->getAfterUrl();
         }
-
+        $details['URL_RETURN'] = $details['URL_RETURN'] . "?Order_ID=" . $details['OrderNumber'];
         $details['Merchant_ID'] = $this->api->getShopId();
         $details['Signature'] = $this->api->sing($details->toUnsafeArray());
 
