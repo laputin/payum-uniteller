@@ -63,6 +63,7 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
             'Currency',
             'Signature',
         ));
+        
 
         $details['URL_RETURN_OK'] = $details['URL_RETURN_OK'] . '?Order_ID=' . $details['OrderNumber'];
 
