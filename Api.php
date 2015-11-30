@@ -82,6 +82,11 @@ class Api
         return $this->config['shop_id'];
     }
 
+    public function getShopId_mfmag()
+    {
+        return $this->config['shop_id_mfmag'];
+    }
+
     private function getPassword()
     {
         return $this->config['password'];
