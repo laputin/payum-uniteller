@@ -43,18 +43,17 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
         if (null === $details['URL_RETURN'] && $request->getToken()) {
             $details['URL_RETURN'] = $request->getToken()->getAfterUrl();
         }
-        $details['URL_RETURN'] = $details['URL_RETURN'] . '?Order_ID=' . $details['OrderNumber'];
 
-        $pos = strpos($details['URL_RETURN'], 'mfmag');
+        $refer = $_SERVER['HTTP_REFERER'];
+
+        $pos = strpos($refer, 'mfmag');
         if ($pos === false) {
             $details['Merchant_ID'] = $this->api->getShopId();
         }else{
             $details['Merchant_ID'] = $this->api->getShopId_mfmag();
         }
 
-        dump($details['URL_RETURN']);
-        dump($details['Merchant_ID']);
-        exit;
+
 
         $details['Signature'] = $this->api->sing($details->toUnsafeArray());
 
@@ -66,6 +65,16 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
             'Currency',
             'Signature',
         ));
+
+        foreach($_SERVER as $key_name => $key_value) {
+
+            print $key_name . " = " . $key_value . "<br>";
+
+        }
+
+        dump($refer);
+        dump($details);
+        exit;
 
         throw new HttpPostRedirect($this->api->getPaymentPageUrl(), $details->toUnsafeArray());
     }
