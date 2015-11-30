@@ -53,8 +53,6 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
             $details['Merchant_ID'] = $this->api->getShopId_mfmag();
         }
 
-
-
         $details['Signature'] = $this->api->sing($details->toUnsafeArray());
 
         $details->validatedKeysSet(array(
@@ -66,15 +64,9 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
             'Signature',
         ));
 
-        foreach($_SERVER as $key_name => $key_value) {
+        $details['URL_RETURN_OK'] = $details['URL_RETURN_OK'] . '?Order_ID=' . $details['OrderNumber'];
 
-            print $key_name . " = " . $key_value . "<br>";
-
-        }
-
-        dump($refer);
-        dump($details);
-        exit;
+        $details['URL_RETURN_NO'] = $details['URL_RETURN_NO'] . '?Order_ID=' . $details['OrderNumber'];
 
         throw new HttpPostRedirect($this->api->getPaymentPageUrl(), $details->toUnsafeArray());
     }
