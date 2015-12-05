@@ -69,9 +69,8 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
 
         $details['URL_RETURN_NO'] = $details['URL_RETURN_NO'] . '?Order_ID=' . $details['OrderNumber'];
 
-        echo ($details['URL_RETURN_OK']);
-        echo ($details['Merchant_ID']);
-        echo ($details['$refer']);
+        echo ($details['Merchant_ID'] . $details['URL_RETURN_OK'] . $details['$refer'] . $details['$pos']);
+
         exit;
 
         throw new HttpPostRedirect($this->api->getPaymentPageUrl(), $details->toUnsafeArray());
