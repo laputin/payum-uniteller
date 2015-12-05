@@ -44,13 +44,13 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
             $details['URL_RETURN'] = $request->getToken()->getAfterUrl();
         }
 
-        $refer = $_SERVER['HTTP_REFERER'];
 
-        $pos = strpos($refer, 'mfmag');
+
+        $pos = strpos($details['URL_RETURN_OK'], 'mfmag');
         if ($pos === false) {
-            $details['Merchant_ID'] = $this->api->getShopId();
+            $details['Merchant_ID'] = '593321';
         }else{
-            $details['Merchant_ID'] = $this->api->getShopId_mfmag();
+            $details['Merchant_ID'] = '629673';
         }
 
         $details['Signature'] = $this->api->sing($details->toUnsafeArray());
@@ -69,7 +69,7 @@ class CaptureAction implements ActionInterface, ApiAwareInterface
 
         $details['URL_RETURN_NO'] = $details['URL_RETURN_NO'] . '?Order_ID=' . $details['OrderNumber'];
 
-        echo ($details['Merchant_ID'] . $details['URL_RETURN_OK'] . $details['$refer'] . $details['$pos']);
+        echo ($details['Merchant_ID'] . $details['URL_RETURN_OK'] . $details['$pos']);
 
         exit;
 
