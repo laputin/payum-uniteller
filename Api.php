@@ -72,8 +72,8 @@ class Api
     public function getPaymentPageUrl()
     {
         return $this->isSandbox()
-            ? 'https://test.paysecure.ru/pay/order.cfm'
-            : 'https://test.paysecure.ru/pay/order.cfm'
+            ? 'https://payments286.paysecure.ru/pay/order.cfm'
+            : 'https://payments286.paysecure.ru/pay/order.cfm'
             ;
     }
 
